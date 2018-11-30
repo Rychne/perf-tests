@@ -268,12 +268,20 @@ func createRCs(c *kubernetes.Clientset) bool {
 		return false
 	}
 	fmt.Println("Created orchestrator replication controller")
-	for i := 1; i <= 3; i++ {
+	for i := 1; i <= 4; i++ {
 		// Bring up pods slowly
 		time.Sleep(3 * time.Second)
 		kubeNode := primaryNode.GetName()
 		if i == 3 {
 			kubeNode = secondaryNode.GetName()
+		}
+
+		if i == 4 {
+			hostnetworking = true
+			kubeNode = secondaryNode.GetName()
+
+		} else {
+			 hostnetworking = false
 		}
 		name = fmt.Sprintf("netperf-w%d", i)
 		fmt.Println("Creating replication controller", name)
@@ -302,6 +310,7 @@ func createRCs(c *kubernetes.Clientset) bool {
 					},
 					Spec: api.PodSpec{
 						NodeName: kubeNode,
+						HostNetwork: hostnetworking,
 						Containers: []api.Container{
 							{
 								Name:            name,
