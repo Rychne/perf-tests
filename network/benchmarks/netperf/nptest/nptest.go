@@ -287,7 +287,7 @@ func allocateWorkToClient(workerS *workerState, reply *WorkItem) {
 
                 switch v.IP {
                 case "PodIP":
-                        reply.ClientItem.Host = getWorkerPodIP(v.DestinationPod)
+                        reply.ClientItem.Host = getWorkerPodIP(v.DestinationNode)
                 case "ClusterIP":
                         reply.ClientItem.Host = os.Getenv("NETPERF_W2_SERVICE_HOST")
                 case "NodeIP":
@@ -493,7 +493,7 @@ func (t *NetPerfRpc) ReceiveOutput(data *WorkerOutput, reply *int) error {
                 testcases[currentJobIndex].Finished = true
         case netperfHTTPTest:
                 outputLog = outputLog + fmt.Sprintln("Received netperf (http) output from worker", data.Worker, "for test", testcase.Label,
-                        "from", testcase.SourcePod, "to", testcase.DestinationPod) + data.Output
+                        "from", testcase.SourceNode, "to", testcase.DestinationNode) + data.Output
                 writeOutputFile(outputCaptureFile, outputLog)
                 tr = parseNetperfTransactionrate(data.Output)
                 registerDataPoint(testcase.Label, 0, tr, currentJobIndex)
