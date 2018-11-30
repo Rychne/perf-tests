@@ -413,6 +413,7 @@ func createNPs(c *kubernetes.Clientset) bool {
                         NamespaceSelector: &metav1.LabelSelector{
                                 MatchLabels: map[string]string{"app": "netperf"},
                         },
+                        IPBlock: &networking.IPBlock{CIDR: fmt.Sprintf("%s/24",primaryNodeIP)},
                 }}
                 if !createIngressNetworkPolicy(c, "default-netperf-ingress-np", networkPolicyPeer) {
                         return false
