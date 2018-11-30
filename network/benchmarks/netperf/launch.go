@@ -198,7 +198,6 @@ func createServices(c *kubernetes.Clientset) bool {
                                 Port:       orchestratorPort,
                                 TargetPort: intstr.FromInt(orchestratorPort),
                         }},
-                        ExternalIPs: []string{primaryNodeIP},
                         Type:        api.ServiceTypeClusterIP,
                 },
         }
@@ -236,6 +235,7 @@ func createServices(c *kubernetes.Clientset) bool {
                                         TargetPort: intstr.FromInt(netperfPort),
                                 },
                         },
+                        ExternalIPs: []string{primaryNodeIP},
                         Type: api.ServiceTypeClusterIP,
                 },
         }
