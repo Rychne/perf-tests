@@ -142,7 +142,7 @@ type testcase struct {
         SourceNode      string
         DestinationNode string
         Label           string
-        IP              bool
+        IP              string
         Finished        bool
         MSS             int
         Type            int
